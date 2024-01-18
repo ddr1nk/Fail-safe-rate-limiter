@@ -2,12 +2,31 @@
 
 namespace App;
 
+use App\Database\DatabaseConnection;
+
 class Kernel
 {
-    public function loadNecessary(): void
+    public function runApplication(): void
     {
-        echo 1;
-        // Подключиться к БД
+        $this->loadNecessary();
 
+        $this->handleRequest();
+
+        $this->handleResponse();
+    }
+
+
+    private function loadNecessary(): void
+    {
+        $connection = DatabaseConnection::getConnection();
+        print_r($connection);
+    }
+
+    private function handleResponse()
+    {
+    }
+
+    private function handleRequest()
+    {
     }
 }
