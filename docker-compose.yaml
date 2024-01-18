@@ -1,0 +1,36 @@
+version: "3.8"
+
+services:
+  nginx:
+    image: nginx:stable-alpine
+    container_name: nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - ./public:/var/www/public
+      - ./docker/nginx/conf/conf.d:/etc/nginx/nginx.conf
+    depends_on:
+      - php
+
+  php:
+    build: ./docker/php
+    container_name: php
+    restart: unless-stopped
+    working_dir: /var/www/
+    volumes:
+      - ./public:/var/www/public
+      - ./docker/php/php.ini:/usr/local/etc/php/php.ini
+    depends_on:
+      - database
+
+  database:
+    image: mariadb:10.6
+    container_name: database
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    environment:
+      MARIADB_USER: user
+      MARIADB_PASSWORD: password
+      MARIADB_ROOT_PASSWORD: password
