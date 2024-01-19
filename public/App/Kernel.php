@@ -17,7 +17,6 @@ class Kernel
         $this->handleResponse($callback);
     }
 
-
     private function loadNecessary(): void
     {
         DatabaseConnection::getConnection();
