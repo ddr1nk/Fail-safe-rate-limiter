@@ -7,6 +7,9 @@ use App\Services\PostServiceInterface;
 
 class PostFactory
 {
+    /**
+     * @return PostServiceInterface
+     */
     public function createPostService(): PostServiceInterface
     {
         return new PostService();

@@ -6,16 +6,25 @@ use PDO;
 
 final class DatabaseConnection
 {
+    /**
+     * @var PDO|null
+     */
     protected static ?PDO $pdo = null;
 
     private function __construct()
     {
     }
 
+    /**
+     * @return void
+     */
     private function __clone()
     {
     }
 
+    /**
+     * @return PDO
+     */
     public static function getConnection(): PDO
     {
         if (!DatabaseConnection::$pdo) {
@@ -32,6 +41,9 @@ final class DatabaseConnection
         return DatabaseConnection::$pdo;
     }
 
+    /**
+     * @return bool
+     */
     public static function isConnected(): bool
     {
         return !is_null(DatabaseConnection::$pdo);

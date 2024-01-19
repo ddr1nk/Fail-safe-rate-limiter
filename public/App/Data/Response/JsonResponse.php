@@ -4,6 +4,10 @@ namespace App\Data\Response;
 
 class JsonResponse extends Response
 {
+    /**
+     * @param array $data
+     * @param int $statusCode
+     */
     public function __construct(protected array $data = [], protected int $statusCode = 204)
     {
         if ($this->data && $this->statusCode === 204) {
@@ -11,6 +15,9 @@ class JsonResponse extends Response
         }
     }
 
+    /**
+     * @return void
+     */
     public function output(): void
     {
         header('Content-Type: application/json; charset=utf-8');

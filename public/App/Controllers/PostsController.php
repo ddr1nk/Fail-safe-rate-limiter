@@ -11,8 +11,14 @@ use Monolog\Logger;
 
 class PostsController extends BaseController
 {
+    /**
+     * @var PostFactory
+     */
     protected PostFactory $postFactory;
 
+    /**
+     * @var Logger
+     */
     protected Logger $logger;
 
     public function __construct()
@@ -21,6 +27,12 @@ class PostsController extends BaseController
         $this->logger = new Logger(static::class);
     }
 
+    /**
+     * @param int $postId
+     * @param int $userId
+     *
+     * @return JsonResponse
+     */
     public function addLikeAction(int $postId, int $userId): JsonResponse
     {
         try {
@@ -34,6 +46,7 @@ class PostsController extends BaseController
                 'userId' => $userId,
             ]);
         }
+
         return new JsonResponse(['d' => 'ВСе круто']);
     }
 }
