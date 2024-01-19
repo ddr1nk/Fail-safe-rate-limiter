@@ -1,11 +1,15 @@
 {
   "require": {
-    "monolog/monolog": "^3.5"
+    "monolog/monolog": "^3.5",
+    "ext-pdo": "*"
   },
   "autoload": {
     "psr-4": {
       "App\\": "App"
     }
   },
-  "platform-check": false
+  "platform-check": false,
+  "require-dev": {
+    "symfony/var-dumper": "^6.4"
+  }
 }
