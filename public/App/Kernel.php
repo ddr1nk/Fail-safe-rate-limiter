@@ -3,7 +3,7 @@
 namespace App;
 
 use App\Data\Response\Response;
-use App\Database\DatabaseConnection;
+use App\Database\System\DatabaseConnection;
 use Error;
 
 class Kernel

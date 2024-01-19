@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Database;
+namespace App\Database\System;
 
 use App\Helpers\Helper;
 use PDO;
