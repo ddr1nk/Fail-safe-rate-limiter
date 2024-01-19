@@ -1,16 +1,35 @@
 <?php
 
-namespace App\Database;
+namespace App\Database\System;
 
 use App\Helpers\Helper;
 use PDO;
 
 class Database
 {
+    /**
+     * @var string
+     */
     private string $host;
+
+    /**
+     * @var string
+     */
     private string $database = '';
+
+    /**
+     * @var string
+     */
     private string $user;
+
+    /**
+     * @var string
+     */
     private string $password;
+
+    /**
+     * @var string
+     */
     private string $charset;
 
     public function __construct()
@@ -22,20 +41,34 @@ class Database
         $this->charset = Helper::config('database.charset');
     }
 
+    /**
+     * @return string
+     */
     public function getUsername(): string
     {
         return $this->user;
 
     }
+
+    /**
+     * @return string
+     */
     public function getPassword(): string
     {
         return $this->password;
     }
+
+    /**
+     * @return string
+     */
     public function getDsn(): string
     {
         return "mysql:host=$this->host;dbname=$this->database;charset=$this->charset";
     }
 
+    /**
+     * @return array
+     */
     public function getOptions(): array
     {
         return [

@@ -3,11 +3,17 @@
 namespace App;
 
 use App\Data\Response\Response;
-use App\Database\DatabaseConnection;
+use App\Database\System\DatabaseConnection;
+use App\Helpers\Logger;
 use Error;
+use Monolog\Handler\StreamHandler;
+use Monolog\Level;
 
 class Kernel
 {
+    /**
+     * @return void
+     */
     public function runApplication(): void
     {
         $this->loadNecessary();
@@ -17,8 +23,15 @@ class Kernel
         $this->handleResponse($callback);
     }
 
+    /**
+     * @return void
+     */
     private function loadNecessary(): void
     {
+        Logger::getInstance()->pushHandler(
+            new StreamHandler(dirname(__DIR__) . '/logs/monolog.log', Level::Debug),
+        );
+
         DatabaseConnection::getConnection();
     }
 
@@ -40,6 +53,9 @@ class Kernel
         }
     }
 
+    /**
+     * @return callable
+     */
     private function handleRequest(): callable
     {
         $requestUri = $_SERVER['REQUEST_URI'];
@@ -47,6 +63,11 @@ class Kernel
         $getParamsPosition = strpos($requestUri, '?');
 
         $sigmaPart = $getParamsPosition ? substr($requestUri, 0, $getParamsPosition) : $requestUri;
+
+
+        if (!str_replace('/', '', $sigmaPart)) {
+            return fn() => $this->emptyResponse();
+        }
 
         [$controllerClass, $action] = array_map(
             fn($element) => ucfirst($element),
@@ -60,5 +81,15 @@ class Kernel
         $params = $_GET;
 
         return fn() => $controller->$action(...$params);
+    }
+
+    /**
+     * @return callable
+     */
+    private function emptyResponse(): callable
+    {
+        return function () {
+            echo "Салам =)";
+        };
     }
 }

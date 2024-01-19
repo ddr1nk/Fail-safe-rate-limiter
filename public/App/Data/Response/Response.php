@@ -4,12 +4,10 @@ namespace App\Data\Response;
 
 class Response
 {
-
-    public function __construct()
-    {
-    }
-
-    public function output()
+    /**
+     * @return void
+     */
+    public function output(): void
     {
         echo static::class;
     }
