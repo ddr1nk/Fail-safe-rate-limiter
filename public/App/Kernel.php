@@ -62,8 +62,9 @@ class Kernel
         $getParamsPosition = strpos($requestUri, '?');
         $sigmaPart = $getParamsPosition ? substr($requestUri, 0, $getParamsPosition) : $requestUri;
 
-        if (!str_replace('/', '', $sigmaPart)) {
-            return fn() => $this->emptyResponse();
+        if (!str_replace('/', '', $sigmaPart))
+        {
+            return  fn() =>  $this->emptyResponse();
         }
 
         [$controllerClass, $action] = array_map(
