@@ -59,11 +59,8 @@ class Kernel
     private function handleRequest(): callable
     {
         $requestUri = $_SERVER['REQUEST_URI'];
-
         $getParamsPosition = strpos($requestUri, '?');
-
         $sigmaPart = $getParamsPosition ? substr($requestUri, 0, $getParamsPosition) : $requestUri;
-
 
         if (!str_replace('/', '', $sigmaPart)) {
             return fn() => $this->emptyResponse();
