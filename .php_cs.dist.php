@@ -2,7 +2,7 @@
 
 $finder = Symfony\Component\Finder\Finder::create()
     ->in([
-        '/public/App',
+        'public/App',
     ])
     ->name('*.php')
     ->notName('*.blade.php')
