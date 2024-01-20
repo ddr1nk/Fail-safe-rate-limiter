@@ -1,4 +1,4 @@
-name: Check & fix styling
+name: PHPCS checks
 on:
   push:
     branches: [ master ]
