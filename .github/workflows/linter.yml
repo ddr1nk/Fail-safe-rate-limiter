@@ -1,9 +1,9 @@
-name: Check & fix styling
+name: PHPCS checks
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
   pull_request:
-    branches: [ main ]
+    branches: [ master ]
 jobs:
   php-cs-fixer:
     runs-on: ubuntu-latest
@@ -16,7 +16,3 @@ jobs:
         uses: docker://oskarstark/php-cs-fixer-ga
         with:
           args: --config=.php_cs.dist.php --allow-risky=yes
-      - name: Commit changes
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: Fix styling
