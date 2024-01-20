@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Controllers\IndexController;
 use App\Data\Response\Response;
 use App\Database\System\DatabaseConnection;
 use App\Helpers\Logger;
@@ -11,6 +12,13 @@ use Monolog\Level;
 
 class Kernel
 {
+    protected Router $router;
+
+    public function __construct()
+    {
+        $this->router = new Router();
+    }
+
     /**
      * @return void
      */
@@ -59,37 +67,21 @@ class Kernel
     private function handleRequest(): callable
     {
         $requestUri = $_SERVER['REQUEST_URI'];
-
         $getParamsPosition = strpos($requestUri, '?');
-
         $sigmaPart = $getParamsPosition ? substr($requestUri, 0, $getParamsPosition) : $requestUri;
 
+        if ($sigmaPart !== '/') {
+            [$page, $action] = array_map(
+                fn($element) => ucfirst($element),
+                array_values(array_filter(explode('/', $sigmaPart))),
+            );
 
-        if (!str_replace('/', '', $sigmaPart)) {
-            return fn() => $this->emptyResponse();
+            $controller = $this->router->getControllerByPage($page);
+            $action .= 'Action';
+
+            return fn() => $controller->$action(...$_GET);
         }
 
-        [$controllerClass, $action] = array_map(
-            fn($element) => ucfirst($element),
-            array_values(array_filter(explode('/', $sigmaPart))),
-        );
-
-        $action .= 'Action';
-        $controllerClass = '\\App\\Controllers\\' . $controllerClass . 'Controller';
-        $controller = new $controllerClass();
-
-        $params = $_GET;
-
-        return fn() => $controller->$action(...$params);
-    }
-
-    /**
-     * @return callable
-     */
-    private function emptyResponse(): callable
-    {
-        return function () {
-            echo "Салам =)";
-        };
+        return fn() => (new IndexController())->indexAction();
     }
 }

@@ -7,7 +7,6 @@ use App\Data\Response\JsonResponse;
 use App\Exceptions\PostNotFoundException;
 use App\Exceptions\UserNotFoundException;
 use App\Factories\PostFactory;
-use Monolog\Logger;
 
 class PostsController extends BaseController
 {
@@ -16,15 +15,12 @@ class PostsController extends BaseController
      */
     protected PostFactory $postFactory;
 
-    /**
-     * @var Logger
-     */
-    protected Logger $logger;
 
     public function __construct()
     {
+        parent::__construct();
+
         $this->postFactory = new PostFactory();
-        $this->logger = new Logger(static::class);
     }
 
     /**
@@ -47,6 +43,6 @@ class PostsController extends BaseController
             ]);
         }
 
-        return new JsonResponse(['d' => 'ВСе круто']);
+        return new JsonResponse(['success' => true]);
     }
 }
